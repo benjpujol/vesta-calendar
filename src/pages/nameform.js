@@ -14,6 +14,8 @@ export default class CalendarForm extends Component {
   };
 
   
+
+  
   onSubmit = (e) => {
     e.preventDefault();
     alert(
@@ -33,20 +35,35 @@ export default class CalendarForm extends Component {
   };
 
   onInput = (e) => {
+    console.log("validation", e.target.validationMessage)
+    
     const errors = { ...this.state.errors };
     if (e.target.validationMessage && e.target.validationMessage !== "") {
       errors[e.target.name] = e.target.validationMessage;
     } else {
       delete errors[e.target.name];
     }
-    this.setState({ errors, disabled: !e.target.form.checkValidity() });
+
+    var firstname = document.getElementById("firstname").value
+    var lastname = document.getElementById("lastname").value
+    var phone = document.getElementById("phone").value
+
+    console.log("azeazea", firstname.length);
+
+    console.log("errors", Object.keys(errors).length)
+
+    console.log("FAILURE", Object.keys(errors).length !=0 || firstname.length == 0 || lastname.length == 0  || phone.length == 0   )
+    console.log(firstname.length == 0)
+    console.log(lastname.length == 0)
+    console.log(phone.length == 0)
+    console.log(e.target.phone)
+    this.setState({ errors, disabled: Object.keys(errors).length !=0 || firstname.length == 0 || lastname.length == 0 || phone.length < 10 });
   };
   render() {
     const { errors } = this.state;
     console.log("form prop", this.props);
     return (
       <Box
-        component="form"
         sx={{
           "& .MuiTextField-root": { m: 1, width: "30ch" },
           "& > :not(style)": { m: 1 },
@@ -62,17 +79,20 @@ export default class CalendarForm extends Component {
         autoComplete="off"
         onSubmit={this.onSubmit}
       >
+        
         <FormControl variant="standard">
           <InputLabel htmlFor="component-simple">Prénom</InputLabel>
           <Input
+          required
             name="firstname"
-            id="standard-text"
+            id="firstname"
             label="Prénom"
             type="text"
             InputLabelProps={{
               shrink: true,
             }}
             variant="standard"
+            invalid={!!errors.firstname}
             onChange={this.onInput}
           >
             {" "}
@@ -91,7 +111,7 @@ export default class CalendarForm extends Component {
           <Input
             required
             name="lastname"
-            id="standard-text"
+            id="lastname"
             label="Nom"
             type="text"
             InputLabelProps={{
@@ -99,6 +119,7 @@ export default class CalendarForm extends Component {
             }}
             variant="standard"
             invalid={!!errors.lastname}
+            onChange={this.onInput}
           >
             {errors.lastname && (
               <div
@@ -115,13 +136,14 @@ export default class CalendarForm extends Component {
           <Input
             required
             name="phone"
-            id="standard-required"
+            id="phone"
             label="Numéro de téléphone"
             InputLabelProps={{
               shrink: true,
             }}
             variant="standard"
             invalid={!!errors.phone}
+            onChange={this.onInput}
           >
             {" "}
             {errors.phone && (
