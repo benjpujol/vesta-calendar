@@ -16,6 +16,7 @@ ReactDOM.render(
         <Routes>
         <Route path="/" element={<App />}>
         <Route index element={<Main />} />
+        <Route path=":date" element={<Main/>} />
             
           </Route>
         <Route path="/booking" element={<DatePicker />} />

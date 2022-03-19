@@ -39,22 +39,22 @@ export default function StaticDatePickerDemo() {
       {
         date: new Date(2022, 2, 19),
         slots: [
-          { id: 0, hour: "10h-11h" },
-          { id: 1, hour: "12h-13h" },
+          { id: 0, hour: "10h - 11h" },
+          { id: 1, hour: "12h - 13h" },
         ],
       },
       {
         date: new Date(2022, 2, 23),
         slots: [
-          { id: 0, hour: "11h-12h" },
-          { id: 1, hour: "14h-15h" },
+          { id: 0, hour: "11h - 12h" },
+          { id: 1, hour: "14h - 15h" },
         ],
       },
       {
         date: new Date(2022, 2, 24),
         slots: [
-          { id: 0, hour: "11h-12h" },
-          { id: 1, hour: "15-18h" },
+          { id: 0, hour: "11h - 12h" },
+          { id: 1, hour: "15h - 18h" },
         ],
       },
     ];

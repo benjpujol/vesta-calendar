@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 
 
 export default function Appointment(props) {
-  
+  console.log(props.bookeddate)
    
   return (
     <Box

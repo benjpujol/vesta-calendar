@@ -6,6 +6,9 @@ import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { RegisterToAirtable } from "../utils/airtable";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import frLocale from "date-fns/locale/fr";
+import { CoPresent } from "@mui/icons-material";
 
 export default class CalendarForm extends Component {
   state = {
@@ -13,13 +16,16 @@ export default class CalendarForm extends Component {
     errors: {},
   };
 
+
+  // I need to set the default value for bookeddate and booked slot using url param
+
   
 
   
   onSubmit = (e) => {
     e.preventDefault();
     alert(
-      `Login: ${e.target.firstname.value} ${e.target.lastname.value} ${e.target.phone.value}`
+      "Votre visite technique est confirmée pour le " +  format(this.props.bookeddate, "eeee dd MMMM", { locale: frLocale }) + " entre " + this.props.bookedslot
     );
     const base_key = "appabRAbNldKQvYiV";
     const fields = {
@@ -62,8 +68,10 @@ export default class CalendarForm extends Component {
   render() {
     const { errors } = this.state;
     console.log("form prop", this.props);
+    console.log("Date du jour", new Date().getTime());
     return (
       <Box
+      component="form"
         sx={{
           "& .MuiTextField-root": { m: 1, width: "30ch" },
           "& > :not(style)": { m: 1 },
