@@ -26,7 +26,7 @@ export default function Appointment(props) {
           flexDirection: "row",
         }}
       >
-        <AccessTime fontSize="small" />
+        <AccessTime fontSize="small" sx={{'margin-right': "5px"}} />
 
         <Box
           sx={{
@@ -41,7 +41,7 @@ export default function Appointment(props) {
               }
           </span>
           <span>{props.bookedslot}</span>
-          <Link href="/booking" > Modifer la date</Link>
+          <Link href="/booking" > Modifier la date</Link>
         </Box>
       </Box>
     </Box>
