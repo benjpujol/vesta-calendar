@@ -13,6 +13,7 @@ export default class CalendarForm extends Component {
     errors: {},
   };
 
+  
   onSubmit = (e) => {
     e.preventDefault();
     alert(
@@ -23,6 +24,9 @@ export default class CalendarForm extends Component {
       Nom: e.target.lastname.value,
       Prenom: e.target.firstname.value,
       Phone: e.target.phone.value,
+      Date: this.props.bookeddate, 
+      Creneau : this.props.bookedslot
+
       
     };
     RegisterToAirtable(base_key, fields).then(() => {console.log("Success for airtable")});
@@ -39,6 +43,7 @@ export default class CalendarForm extends Component {
   };
   render() {
     const { errors } = this.state;
+    console.log("form prop", this.props);
     return (
       <Box
         component="form"
