@@ -4,10 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// date-fns
+import Main from "./pages/mainpage.js";
+import DatePicker from "./pages/datepicker.js";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+
+    <BrowserRouter>
+        <Routes>
+        <Route path="/" element={<App />}>
+        <Route index element={<Main />} />
+            
+          </Route>
+        <Route path="/booking" element={<DatePicker />} />
+  
+        </Routes>
+      </BrowserRouter>
+    
+ ,
   document.getElementById('root')
 );
 

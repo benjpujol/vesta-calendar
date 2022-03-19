@@ -9,15 +9,30 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Link from '@mui/material/Link';
-import { AccessTime } from "@mui/icons-material";
+import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
+
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import { chainPropTypes } from "@mui/utils";
+import { convertValueToMeridiem } from "@mui/lab/internal/pickers/time-utils";
+import { useEffect } from "react";
 
 export default function StaticDatePickerDemo() {
+  
+  let navigate = useNavigate();
+
   const [value, setValue] = React.useState(new Date());
   const [slots, setSlots] = React.useState([{ id: 0, hour: "11h-12h" }]);
   const [bookedslot, setBookedSlot] = React.useState();
   const [bookeddate, setBookedDate] = React.useState(new Date());
+
+  function onSelectSlot(item){
+    console.log(item);
+    console.log("vlaue", value)
+    navigate("/", {state : {slot: item.hour, date: value}});
+  }
+
+  useEffect(()=> setSlots(getTimes(value).slots), [value])
 
   function getTimes(date) {
     const date_times = [
@@ -33,6 +48,13 @@ export default function StaticDatePickerDemo() {
         slots: [
           { id: 0, hour: "11h-12h" },
           { id: 1, hour: "14h-15h" },
+        ],
+      },
+      {
+        date: new Date(2022, 2, 24),
+        slots: [
+          { id: 0, hour: "11h-12h" },
+          { id: 1, hour: "15-18h" },
         ],
       },
     ];
@@ -51,7 +73,7 @@ export default function StaticDatePickerDemo() {
     const dateInterditesRaw = [
       new Date(date.getFullYear(), 2, 19),
       new Date(date.getFullYear(), 2, 23),
-      new Date(date.getFullYear(), 3, 8),
+      new Date(date.getFullYear(), 2, 24),
     ];
 
     /* make a new array with the getTime() without it date comparaison are 
@@ -71,7 +93,10 @@ export default function StaticDatePickerDemo() {
   console.log(value.getDay());
 
   return (
-    <>
+    <Container maxWidth="sm">
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems:'center'}}>
+      <h4>Choisissez un créneau</h4>
+
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
         <StaticDatePicker
           displayStaticWrapperAs="desktop"
@@ -80,13 +105,14 @@ export default function StaticDatePickerDemo() {
           views={["day"]}
           value={value}
           onChange={(newValue) => {
+          
             setValue(newValue);
-            setSlots(getTimes(value).slots);
+            
           }}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
-      <Box>
+      <Box sx = {{width:"50%", mx : "auto"}}>
         <h3>
           {value.getDay()
             ? format(value, "eeee dd MMMM", { locale: frLocale })
@@ -95,7 +121,7 @@ export default function StaticDatePickerDemo() {
         <Stack spacing={2} direction="column">
           {slots ? (
             slots.map((item) => (
-              <Button variant="outlined" onClick={() => {setBookedSlot(item.hour); setBookedDate(value)}}>
+              <Button variant="outlined" onClick={() => onSelectSlot(item)}>
                 {item.hour}
               </Button>
             ))
@@ -104,37 +130,8 @@ export default function StaticDatePickerDemo() {
           )}
         </Stack>
       </Box>
-      <Box
-      sx={{
-        display: "flex",
-        alignItems: "flex-start",
-        flexDirection: "column",
-      }}
-       
-      >
-        <h5>Visite technique Vesta</h5>
-        <Box  sx={{
-              display: "flex",
-              alignItems: "flex-start",
-              flexDirection: "row",
-            }}>
-          <AccessTime fontSize="small" />
-       
-          <Box sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          flexDirection: "column",
-        }}>
-            <span>
-              {value.getDay()
-                ? format(bookeddate, "eeee dd MMMM", { locale: frLocale })
-                : ""}
-            </span>
-            <span>{bookedslot}</span>
-            <Link href='/'> Modifer la date</Link>
-          </Box>
-        </Box>
       </Box>
-    </>
+      
+      </Container>
   );
 }

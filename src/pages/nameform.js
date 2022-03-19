@@ -23,9 +23,9 @@ export default class CalendarForm extends Component {
       Nom: e.target.lastname.value,
       Prenom: e.target.firstname.value,
       Phone: e.target.phone.value,
-      Date: "",
+      
     };
-    RegisterToAirtable(base_key, fields)
+    RegisterToAirtable(base_key, fields).then(() => {console.log("Success for airtable")});
   };
 
   onInput = (e) => {
@@ -48,6 +48,11 @@ export default class CalendarForm extends Component {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          maxWidth: '50%',
+          mx: "auto"
+          
+        
+          
         }}
         autoComplete="off"
         onSubmit={this.onSubmit}
