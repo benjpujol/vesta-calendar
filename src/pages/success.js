@@ -5,18 +5,18 @@ import Form from "./nameform.js";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Appointment from "./appointment_details";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { addHours } from "date-fns";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import frLocale from "date-fns/locale/fr";
 
 
-
-export default function Main() {
+export default function Success() {
   let location = useLocation();
   let params = useParams();
 
   const [bookedslot, setBookedSlot] = React.useState(new Date());
-  let navigate = useNavigate();
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -38,30 +38,11 @@ export default function Main() {
                     src="/images/vesta.svg"
                     alt="Vesta"
                   /></Container>
-      <Container maxWidth="md" sx = {{paddingTop:"30px"}}>
-        <Grid container spacing={4}>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            
-          >
-            <Box sx={{
-              mx: "auto",
-              
-              border: 1,
-              borderColor: "grey.300",
-              borderRadius: 5,
-              paddingBottom: "30px"
-            }}>
-            <h4 style={{ textAlign: "center" }}>Confirmez votre réservation</h4>
-            <Form bookedslot={bookedslot} navigate={navigate} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Appointment bookedslot={bookedslot} />
-          </Grid>
-        </Grid>
+      <Container maxWidth="md" sx = {{paddingTop:"30px", textAlign:"center"}}>
+        <h4>Merci d'avoir réservé votre visite le {
+              format(bookedslot, "eeee dd MMMM", { locale: frLocale })
+              }  à   {format(bookedslot, "HH:mm", { locale: frLocale })}</h4>
+            <p>Vous allez recevoir une invitation sur votre boîte mail.</p>
       </Container>
     </React.Fragment>
   );

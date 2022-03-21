@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // date-fns
 import Main from "./pages/mainpage.js";
 import DatePicker from "./pages/datepicker.js";
+import SuccessPage from "./pages/success.js"
 
 ReactDOM.render(
 
@@ -21,6 +22,7 @@ ReactDOM.render(
             
           </Route>
         <Route path="/booking" element={<DatePicker />} />
+        <Route path="/success" element={<SuccessPage />} />
   
         </Routes>
       </BrowserRouter>

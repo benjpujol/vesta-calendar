@@ -14,16 +14,20 @@ export default function Appointment(props) {
     <Box
       sx={{
         display: "flex",
-        alignItems: "flex-start",
+        alignItems: "center",
         flexDirection: "column",
+        
+        height: "auto",
+        border: 1, borderColor:"grey.300", borderRadius:5,
       }}
     >
-      <h5>Visite technique Vesta</h5>
+      <h4 style={{textAlign: 'center'}}>Visite technique Vesta</h4>
       <Box
         sx={{
           display: "flex",
           alignItems: "flex-start",
           flexDirection: "row",
+          paddingY: "15px"
         }}
       >
         <AccessTime fontSize="small" sx={{'margin-right': "5px"}} />

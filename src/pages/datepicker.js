@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
-import { RecordList } from "../utils/airtable";
+import { DisponibilitiesList, BookedList } from "../utils/airtable";
 
 import {
   addDays,
@@ -25,64 +25,115 @@ import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import { chainPropTypes } from "@mui/utils";
 import { convertValueToMeridiem } from "@mui/lab/internal/pickers/time-utils";
 import { useEffect } from "react";
-import { CopyAll } from "@mui/icons-material";
+import { Book, CopyAll } from "@mui/icons-material";
 
 export default function StaticDatePickerDemo() {
   let navigate = useNavigate();
 
+  //value is the date that is selected by the user
   const [value, setValue] = React.useState(new Date());
-  const [slots, setSlots] = React.useState([]);
-  const [bookedslot, setBookedSlot] = React.useState();
-  const [bookeddate, setBookedDate] = React.useState(new Date());
 
+  //slots are the available slots for the date that is chosen
+  const [slots, setSlots] = React.useState([]);
+
+  //all booked slots
+  const [bookedSlots, setBookedSlots] = React.useState([]);
+
+  //available dates (where there is at least one slot available)
   const [availableDates, setAvailableDates] = React.useState([]);
+
+  //all slots that are really available (installer is free and not booked yet)
   const [availableSlots, setAvailableSlots] = React.useState([]);
 
   useEffect(() => {
-    console.log('getTimes', getTimes(value))
-    setSlots(getTimes(value));
-
+    // get Available slots for the date that is selected
     let available_dates = [];
     let available_slots = [];
+    let booked_slots = [];
 
-    RecordList().then((result) => {
-      result.forEach(function (record) {
-        console.log(startOfDay(record.start));
-        available_dates.push(startOfDay(record.start));
-        available_slots.push.apply(
-          available_slots,
-          eachHourOfInterval(record).slice(0, -1)
-        );
-      });
-      console.log("Available dates", available_dates);
-      console.log("Available slots", available_slots);
-      setAvailableDates(available_dates);
-      setAvailableSlots(available_slots);
-    });
-  }, [value]);
+    //Read all slots that are already booked
+    BookedList()
+      .then((result) => {
+        result.forEach(function (record) {
+          booked_slots.push(record);
+        });
+
+        setBookedSlots(booked_slots);
+      })
+      .then(
+        //Create all possible 1hour slots based on installer schedule
+        DisponibilitiesList().then((result) => {
+          result.forEach(function (record) {
+            available_dates.push(startOfDay(record.start));
+            available_slots.push.apply(
+              available_slots,
+              eachHourOfInterval(record).slice(0, -1)
+            );
+          });
+          
+
+          // Remove the slots that were booked before
+          let bookedSlotsMilliseconds = bookedSlots.map((item) =>
+            item.getTime()
+          ); //convert to milliseconds before comparison
+
+          
+          let remaining_slots = available_slots.filter(function (el) {
+            return !bookedSlotsMilliseconds.includes(el.getTime());
+          });
+
+          
+
+          //Unique set of Dates where there is at least one remaining slot
+          //function to remove duplicates
+          function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+          }
+
+          let remaining_dates = remaining_slots
+            .map((item) => startOfDay(item))
+            .filter(onlyUnique);
+
+          console.log("remaining", remaining_dates)
+
+          //set States
+          setAvailableDates(remaining_dates);
+          setAvailableSlots(remaining_slots);
+        })
+      )
+     ;
+  });
+
+  //when value change, find the slots
+  useEffect(() =>setSlots(getTimes(value)), [value])
+
+
+  
 
   function onSelectSlot(item) {
-    console.log("item to send", item);
-    navigate("/confirm", { state: item } );
+    //navigate to the confirmation page with the selected date as location state
+    navigate("/confirm", { state: item });
   }
 
   function getTimes(date) {
     console.log("availableSlots", availableSlots);
-    console.log("date", date);
+    console.log("availableDates", availableDates);
+  
+
+    // find all the available slots on the chosen date
     var result = availableSlots.filter(function (item, index) {
       if (startOfDay(item).getTime() == startOfDay(date).getTime()) {
-        console.log("success", item);
         return true;
       }
     });
-
-    
 
     if (result) return result;
     else return [{ slots: [] }];
   }
 
   function disableDates(date) {
+    //Returns true if the date needs to be disabled in the calendar
+    // Check if the date is in the list of dates that are still available
     // in the following array format is us month are starting from 0 till 11
     /* make a new array with the getTime() without it date comparaison are 
     never true  */

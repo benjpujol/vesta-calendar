@@ -9,6 +9,7 @@ import { RegisterToAirtable } from "../utils/airtable";
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import frLocale from "date-fns/locale/fr";
 import { CoPresent } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 export default class CalendarForm extends Component {
   state = {
@@ -16,17 +17,11 @@ export default class CalendarForm extends Component {
     errors: {},
   };
 
-
-  // I need to set the default value for bookeddate and booked slot using url param
-
-  
-
-  
+    
   onSubmit = (e) => {
     e.preventDefault();
-    alert(
-      "Votre visite technique est confirmée pour le " +  format(this.props.bookedslot, "eeee dd MMMM", { locale: frLocale })
-    );
+    
+    
     const base_key = "appabRAbNldKQvYiV";
     const fields = {
       Nom: e.target.lastname.value,
@@ -37,7 +32,7 @@ export default class CalendarForm extends Component {
 
       
     };
-    RegisterToAirtable(base_key, fields).then(() => {console.log("Success for airtable")});
+    RegisterToAirtable(base_key, fields).then(() => this.props.navigate("/success", {state: this.props.bookedslot}));
   };
 
   onInput = (e) => {
@@ -78,7 +73,8 @@ export default class CalendarForm extends Component {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          maxWidth: '50%',
+          maxWidth: '100%',
+          width: '75%',
           mx: "auto"
           
         
