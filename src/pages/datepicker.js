@@ -147,8 +147,8 @@ export default function StaticDatePickerDemo() {
   }
 
   return (
-    <Container maxWidth="md" sx={{ padding: "30px 0px 0px 40px" }}>
-      <Container maxWidth="lg" sx={{ paddingTop: "20px" }}>
+    <Container maxWidth="md" sx={{ padding: "30px 0px 40px 0px" }}>
+      <Container maxWidth="lg" sx={{ paddingY: "20px" }}>
         <img style={{ height: "30px" }} src="/images/vesta.svg" alt="Vesta" />
       </Container>
       <Container maxWidth="lg" sx={{ paddingTop: "30px" }}>
