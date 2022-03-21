@@ -33,12 +33,12 @@ export default function Main() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md" sx = {{paddingTop:"20px"}}><img
+      <Container maxWidth="md" sx = {{paddingY:"20px"}}><img
                     style={{height: "30px"}}
                     src="/images/vesta.svg"
                     alt="Vesta"
                   /></Container>
-      <Container maxWidth="md" sx = {{paddingTop:"30px"}}>
+      <Container maxWidth="md" sx = {{paddingY:"30px"}}>
         <Grid container spacing={4}>
           <Grid
             item
