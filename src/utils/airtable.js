@@ -1,4 +1,5 @@
 import Airtable from "airtable";
+import { addDays, eachHourOfInterval, parseISO } from "date-fns";
 
 // Record data
 export async function RegisterToAirtable(base_key, fields) {
@@ -37,4 +38,45 @@ export async function RegisterToAirtable(base_key, fields) {
     }
   );
   return "data registered to airtable";
+}
+
+export async function RecordList() {
+  const airtable_api_key = "keyF1aNVJUbKDgXDj";
+  var base = new Airtable({ apiKey: airtable_api_key }).base(
+    "appPhYilwzWEbCBZG"
+  );
+
+  return new Promise((resolve, reject) => {
+    const intervals = [];
+    base("prod")
+      .select({
+        // Selecting the first 3 records in Grid view:
+        maxRecords: 10,
+        view: "Grid view",
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          // This function (`page`) will get called for each page of records.
+
+          records.forEach(function (record) {
+            intervals.push({
+              start: parseISO(record.get("Start")),
+              end: parseISO(record.get("End")),
+            });
+          });
+
+          // To fetch the next page of records, call `fetchNextPage`.
+          // If there are more records, `page` will get called again.
+          // If there are no more records, `done` will get called.
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(intervals);
+          }
+        }
+      );
+  });
 }

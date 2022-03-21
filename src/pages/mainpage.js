@@ -16,8 +16,8 @@ export default function Main() {
 
 
 
-  const [bookedslot, setBookedSlot] = React.useState("");
-  const [bookeddate, setBookedDate] = React.useState( new Date());
+  const [bookedslot, setBookedSlot] = React.useState(new Date());
+  
 
   
 
@@ -25,12 +25,12 @@ export default function Main() {
     // Update the document title using the browser API
 
     console.log(location.state);
-    if (location.state){ setBookedSlot(location.state.slot);
-      setBookedDate(location.state.date)}
+    if (location.state) setBookedSlot(location.state);
+      
     else{
       let default_date = new Date(parseInt(params.date));
-      setBookedDate(default_date);
-      setBookedSlot(default_date.getHours() + 'h - ' + addHours(default_date, 1).getHours() + "h");
+    
+      setBookedSlot(default_date);
     };
   }, [location.state] );
 
@@ -43,11 +43,11 @@ export default function Main() {
             <Grid item xs={8}>
               <Box sx={{ maxWidth: "sm", mx: "auto" }}>
                 <h4>Confirmez votre réservation</h4>
-                <Form bookeddate={bookeddate} bookedslot={bookedslot} />
+                <Form  bookedslot={bookedslot} />
               </Box>
             </Grid>
             <Grid item xs={4}>
-              <Appointment bookeddate={bookeddate} bookedslot={bookedslot} />
+              <Appointment bookedslot={bookedslot} />
             </Grid>
           </Grid>
         </Box>

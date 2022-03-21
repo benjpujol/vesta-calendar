@@ -37,10 +37,12 @@ export default function Appointment(props) {
         >
           <span>
             {
-              format(props.bookeddate, "eeee dd MMMM", { locale: frLocale })
+              format(props.bookedslot, "eeee dd MMMM", { locale: frLocale })
               }
           </span>
-          <span>{props.bookedslot}</span>
+          <span>  {
+              format(props.bookedslot, "HH:mm", { locale: frLocale })
+              }</span>
           <Link href="/booking" > Modifier la date</Link>
         </Box>
       </Box>

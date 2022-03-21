@@ -14,8 +14,9 @@ ReactDOM.render(
 
     <BrowserRouter>
         <Routes>
-        <Route path="/" element={<App />}>
-        <Route index element={<Main />} />
+        <Route path="/" element={<Main />}>
+        <Route path="/confirm" element={<Main />}/>
+        <Route index element={<DatePicker />} />
         <Route path=":date" element={<Main/>} />
             
           </Route>
