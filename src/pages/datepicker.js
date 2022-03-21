@@ -140,18 +140,18 @@ export default function StaticDatePickerDemo() {
   }
 
   return (
-    <Container maxWidth="sm" sx={{ padding: "30px 0px 0px" }}>
-      <Container maxWidth="md" sx={{ paddingTop: "20px" }}>
+    <Container maxWidth="md" sx={{ padding: "30px 0px 0px" }}>
+      <Container maxWidth="lg" sx={{ paddingTop: "20px" }}>
         <img style={{ height: "30px" }} src="/images/vesta.svg" alt="Vesta" />
       </Container>
-      <Container maxWidth="md" sx={{ paddingTop: "30px" }}>
-        <Grid container spacing={1}>
+      <Container maxWidth="lg" sx={{ paddingTop: "30px" }}>
+        <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "flex-start",
+                justifyContent: "center",
                 width: "100%",
               }}
             >
@@ -185,7 +185,7 @@ export default function StaticDatePickerDemo() {
               </LocalizationProvider>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <Box
               sx={{
                 display: "flex",
