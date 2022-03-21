@@ -48,7 +48,9 @@ export async function DisponibilitiesList() {
 
   return new Promise((resolve, reject) => {
     const intervals = [];
+
     
+
     base("prod")
       .select({
         // Selecting the first 3 records in Grid view:
@@ -58,7 +60,7 @@ export async function DisponibilitiesList() {
       .eachPage(
         function page(records, fetchNextPage) {
           // This function (`page`) will get called for each page of records.
-
+          
           records.forEach(function (record) {
             intervals.push({
               start: parseISO(record.get("Start")),
@@ -82,7 +84,6 @@ export async function DisponibilitiesList() {
   });
 }
 
-
 export async function BookedList() {
   const airtable_api_key = "keyF1aNVJUbKDgXDj";
   const vercel_env = process.env.NEXT_PUBLIC_VERCEL_ENV;
@@ -91,13 +92,20 @@ export async function BookedList() {
     "appabRAbNldKQvYiV"
   );
 
+  
+
   let base_tab = "dev";
   if (vercel_env === "production") {
     base_tab = "prod";
   }
 
+
+  
+
   return new Promise((resolve, reject) => {
+    
     const intervals = [];
+
     base(base_tab)
       .select({
         // Selecting the first 3 records in Grid view:
@@ -107,10 +115,8 @@ export async function BookedList() {
       .eachPage(
         function page(records, fetchNextPage) {
           // This function (`page`) will get called for each page of records.
-
           records.forEach(function (record) {
-            intervals.push(parseISO(record.get("Date"))
-            );
+            intervals.push(parseISO(record.get("Date")));
           });
 
           // To fetch the next page of records, call `fetchNextPage`.
@@ -128,5 +134,3 @@ export async function BookedList() {
       );
   });
 }
-
-

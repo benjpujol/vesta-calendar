@@ -46,14 +46,20 @@ export default function StaticDatePickerDemo() {
   const [availableSlots, setAvailableSlots] = React.useState([]);
 
   useEffect(() => {
+    
     // get Available slots for the date that is selected
     let available_dates = [];
     let available_slots = [];
     let booked_slots = [];
 
+    
+
+   
+
     //Read all slots that are already booked
     BookedList()
       .then((result) => {
+       
         result.forEach(function (record) {
           booked_slots.push(record);
         });
@@ -63,6 +69,7 @@ export default function StaticDatePickerDemo() {
       .then(
         //Create all possible 1hour slots based on installer schedule
         DisponibilitiesList().then((result) => {
+    
           result.forEach(function (record) {
             available_dates.push(startOfDay(record.start));
             available_slots.push.apply(
@@ -97,7 +104,7 @@ export default function StaticDatePickerDemo() {
           setAvailableSlots(remaining_slots);
         })
       );
-  });
+  }, []);
 
   //when value change, find the slots
   useEffect(() => setSlots(getTimes(value)), [value]);
@@ -140,7 +147,7 @@ export default function StaticDatePickerDemo() {
   }
 
   return (
-    <Container maxWidth="md" sx={{ padding: "30px 0px 0px" }}>
+    <Container maxWidth="md" sx={{ padding: "30px 0px 0px 40px" }}>
       <Container maxWidth="lg" sx={{ paddingTop: "20px" }}>
         <img style={{ height: "30px" }} src="/images/vesta.svg" alt="Vesta" />
       </Container>
@@ -197,7 +204,7 @@ export default function StaticDatePickerDemo() {
                 justifyContent: "flex-start",
               }}
             >
-              <h4>
+              <h4 style={{textAlign:"center"}}>
                 {value.getDay()
                   ? format(value, "eeee dd MMMM", { locale: frLocale })
                   : ""}
