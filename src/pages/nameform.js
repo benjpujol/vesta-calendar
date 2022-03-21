@@ -25,15 +25,15 @@ export default class CalendarForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     alert(
-      "Votre visite technique est confirmée pour le " +  format(this.props.bookeddate, "eeee dd MMMM", { locale: frLocale }) + " entre " + this.props.bookedslot
+      "Votre visite technique est confirmée pour le " +  format(this.props.bookedslot, "eeee dd MMMM", { locale: frLocale })
     );
     const base_key = "appabRAbNldKQvYiV";
     const fields = {
       Nom: e.target.lastname.value,
       Prenom: e.target.firstname.value,
       Phone: e.target.phone.value,
-      Date: this.props.bookeddate, 
-      Creneau : this.props.bookedslot
+      Date: this.props.bookedslot, 
+      
 
       
     };
@@ -82,7 +82,6 @@ export default class CalendarForm extends Component {
           mx: "auto"
           
         
-          
         }}
         autoComplete="off"
         onSubmit={this.onSubmit}
