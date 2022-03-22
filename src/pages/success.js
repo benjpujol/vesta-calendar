@@ -1,13 +1,10 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import Form from "./nameform.js";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Appointment from "./appointment_details";
+
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { addHours } from "date-fns";
+
 import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import frLocale from "date-fns/locale/fr";
 

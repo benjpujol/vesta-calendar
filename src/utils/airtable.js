@@ -17,7 +17,8 @@ export async function RegisterToAirtable(base_key, fields) {
   // return result;
   // si on fait tout en browser
   const airtable_api_key = "keyF1aNVJUbKDgXDj"; // a sécuriser
-  const vercel_env = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  const vercel_env = process.env.NODE_ENV;
+  
   let base_tab = "dev";
   if (vercel_env === "production") {
     base_tab = "prod";
@@ -86,7 +87,7 @@ export async function DisponibilitiesList() {
 
 export async function BookedList() {
   const airtable_api_key = "keyF1aNVJUbKDgXDj";
-  const vercel_env = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  const vercel_env = process.env.NODE_ENV;
 
   var base = new Airtable({ apiKey: airtable_api_key }).base(
     "appabRAbNldKQvYiV"

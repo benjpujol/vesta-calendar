@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { RegisterToAirtable } from "../utils/airtable";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
-import frLocale from "date-fns/locale/fr";
-import { CoPresent } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+
 
 export default class CalendarForm extends Component {
   state = {
