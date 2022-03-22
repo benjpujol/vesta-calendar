@@ -48,25 +48,25 @@ export default function StaticDatePickerDemo() {
   useEffect(() => {
     
     // get Available slots for the date that is selected
-    let available_dates = [];
-    let available_slots = [];
     let booked_slots = [];
 
-    
 
    
-
     //Read all slots that are already booked
-    BookedList()
-      .then((result) => {
+    BookedList().then((result) => {
        
         result.forEach(function (record) {
           booked_slots.push(record);
         });
 
         setBookedSlots(booked_slots);
-      })
-      .then(
+      })}, []);
+
+    useEffect(() => {
+
+        let available_dates = [];
+        let available_slots = [];
+      
         //Create all possible 1hour slots based on installer schedule
         DisponibilitiesList().then((result) => {
     
@@ -83,9 +83,17 @@ export default function StaticDatePickerDemo() {
             item.getTime()
           ); //convert to milliseconds before comparison
 
+          console.log('booked slots milliseconds', bookedSlotsMilliseconds)
+          console.log(bookedSlots)
+          
+
           let remaining_slots = available_slots.filter(function (el) {
+            console.log("available slot", el + " " + el.getTime())
+            console.log(!bookedSlotsMilliseconds.includes(el.getTime()))
             return !bookedSlotsMilliseconds.includes(el.getTime());
           });
+          console.log(available_slots.length)
+          console.log(remaining_slots.length)
 
           //Unique set of Dates where there is at least one remaining slot
           //function to remove duplicates
@@ -102,9 +110,7 @@ export default function StaticDatePickerDemo() {
           //set States
           setAvailableDates(remaining_dates);
           setAvailableSlots(remaining_slots);
-        })
-      );
-  }, []);
+    })}, [bookedSlots]);
 
   //when value change, find the slots
   useEffect(() => setSlots(getTimes(value)), [value]);
@@ -117,6 +123,7 @@ export default function StaticDatePickerDemo() {
   function getTimes(date) {
     console.log("availableSlots", availableSlots);
     console.log("availableDates", availableDates);
+    console.log("bookedSlots", bookedSlots)
 
     // find all the available slots on the chosen date
     var result = availableSlots.filter(function (item, index) {
